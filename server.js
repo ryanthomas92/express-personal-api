@@ -43,9 +43,7 @@ app.get('/', function homepage(req, res) {
  */
 
 app.get('/api', function api_index(req, res) {
-  // TODO: Document all your api endpoints below
   res.json({
-    woopsIForgotToDocumentAllMyEndpoints: true, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
     documentationUrl: "https://github.com/ryanthomas92/express-personal-api/README.md",
     baseUrl: "http://ryansapi.herokuapp.com",
@@ -57,6 +55,19 @@ app.get('/api', function api_index(req, res) {
       {method: "GET", path: "/api/places", description: "Places I've been and want to go to"}
     ]
   })
+});
+
+
+app.get('/api/profile', function(req, res) {
+  res.json({
+    name: "Ryan Thomas",
+    githubUsername: "ryanthomas92",
+    githubLink: "https://github.com/ryanthomas92",
+    githubProfileImage: "https://avatars0.githubusercontent.com/u/20100607?v=3&s=400",
+    personalSiteLink: "https://ryansapi.herokuapp.com/",
+    currentCity: "San Francisco",
+    pets: [{name: "Snips", type: "Hermit Crab"}, {name: "Alpha", type: "Beta Fish"}]
+  });
 });
 
 /**********
