@@ -6,7 +6,8 @@ var project_list = [
   description: "First Project"
   }
 ]
-db Project.remove({}, function(err, projects) {
+
+db.Project.remove({}, function(err, projects) {
   if (err) {
     console.log('Error occurred in remove', err);
   } else {
