@@ -19,7 +19,7 @@ app.use(function(req, res, next) {
  * DATABASE *
  ************/
 
-// var db = require('./models');
+var db = require('./models');
 
 /**********
  * ROUTES *
@@ -57,9 +57,6 @@ app.get('/api', function api_index(req, res) {
   })
 });
 
-app.get('/api', function(req, res) {
-
-});
 
 app.get('/api/profile', function(req, res) {
   res.json({
@@ -73,12 +70,35 @@ app.get('/api/profile', function(req, res) {
   });
 });
 
+//get all projects
 app.get('/api/projects', function(req, res) {
-
+  db.Project.find(function(err, projects) {
+    if(err) { return console.log("index error: " + err); }
+    res.json(projects);
+  });
 });
 
-app.post('/api/projects', function(req, res) {
+//get one project
+app.get('/api/projects/:id', function (req, res) {
+  db.Project.findOne({_id: req.params.id }, function(err, projectData) {
+    res.json(projectData);
+  });
+});
 
+//post one projects
+app.post('/api/projects', function(req, res) {
+  var newProject = new db.Project(req.body);
+  newProject.save(function handleDBProjectSaved(err, savedProject) {
+    res.json(savedProject);
+  });
+});
+
+//delete one projects
+app.delete('/api/projects/:id', function(req, res) {
+  var projectId = req.params.id;
+  db.Project.findOneAndRemove({ _id: projectId }, function(err, deletedProject) {
+    res.json(deletedProject);
+  });
 });
 
 app.get('/api/places', function(req, res) {
