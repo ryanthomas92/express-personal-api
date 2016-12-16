@@ -1,12 +1,22 @@
 var db = require('./models');
 
-var new_project = {name: "Project 0", description: "First Project"};
-
-db.Project.create(new_project, function(err, project){
-  if (err){
-    return console.log("Error:", err);
+var project_list = [
+  {
+  name: "Project 0",
+  description: "First Project"
   }
+]
+db Project.remove({}, function(err, projects) {
+  if (err) {
+    console.log('Error occurred in remove', err);
+  } else {
+    console.log("Removed all projects");
 
-  console.log("Created new campsite", project._id)
-  process.exit(); // we're all done! Exit the program.
+    db.Project.create(projects_list, function(err, projects){
+      if (err){ return console.log("Error:", err); }
+
+      console.log("Created ", projects.length, " projects");
+      process.exit(); // we're all done! Exit the program.
+    });
+  }
 });
