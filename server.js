@@ -54,7 +54,7 @@ app.get('/api', function api_index(req, res) {
       {method: "POST", path: "/api/projects", description: "Create a new project"},
       {method: "GET", path: "/api/places", description: "Places I've been and want to go to"}
     ]
-  })
+  });
 });
 
 
