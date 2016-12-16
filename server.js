@@ -50,13 +50,16 @@ app.get('/api', function api_index(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "My profile"},
-      {method: "GET", path: "/api/projects", description: "All of my projects to date"},
+      {method: "GET", path: "/api/projects", description: "Get all of my projects to date"},
       {method: "POST", path: "/api/projects", description: "Create a new project"},
       {method: "GET", path: "/api/places", description: "Places I've been and want to go to"}
     ]
   })
 });
 
+app.get('/api', function(req, res) {
+
+});
 
 app.get('/api/profile', function(req, res) {
   res.json({
@@ -68,6 +71,18 @@ app.get('/api/profile', function(req, res) {
     currentCity: "San Francisco",
     pets: [{name: "Snips", type: "Hermit Crab"}, {name: "Alpha", type: "Beta Fish"}]
   });
+});
+
+app.get('/api/projects', function(req, res) {
+
+});
+
+app.post('/api/projects', function(req, res) {
+
+});
+
+app.get('/api/places', function(req, res) {
+
 });
 
 /**********
