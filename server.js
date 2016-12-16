@@ -51,8 +51,10 @@ app.get('/api', function api_index(req, res) {
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "My profile"},
       {method: "GET", path: "/api/projects", description: "Get all of my projects to date"},
+      {method: "GET", path: "/api/projects/:id", description: "Get one project from the list of projects"},
       {method: "POST", path: "/api/projects", description: "Create a new project"},
-      {method: "GET", path: "/api/places", description: "Places I've been and want to go to"}
+      {method: "PATCH", path: "/api/projects/:id", description: "Places I've been and want to go to"},
+      {method: "DELETE", path: "/api/projects/:id", description: "Deletes one of my projects"}
     ]
   });
 });
@@ -72,24 +74,69 @@ app.get('/api/profile', function(req, res) {
 
 //get all projects
 app.get('/api/projects', function(req, res) {
-  db.Project.find(function(err, projects) {
-    if(err) { return console.log("index error: " + err); }
-    res.json(projects);
+  db.Project.find({}, function(err, projects) {
+    if(err) {
+      return console.log("index error: " + err);
+    } else {
+      res.json(projects);
+    }
   });
 });
 
 //get one project
 app.get('/api/projects/:id', function (req, res) {
-  db.Project.findOne({_id: req.params.id }, function(err, projectData) {
-    res.json(projectData);
+  db.Project.findOne({ _id: req.params.id }, function(err, foundProject) {
+    if(err) {
+      res.status(500).send("error: ", err);
+    } else {
+      res.json(foundProject);
+    }
   });
 });
 
-//post one projects
-app.post('/api/projects', function(req, res) {
-  var newProject = new db.Project(req.body);
-  newProject.save(function handleDBProjectSaved(err, savedProject) {
-    res.json(savedProject);
+//post one project
+app.post('/api/projects', function projectCreate(req, res) {
+
+  var projectInfo = {
+    projectName: req.body.projectName,
+    description: req.body.description,
+    githubRepoUrl: req.body.githubRepoUrl //,
+    // deployedUrl: req.body.deployedUrl,
+    // screenshot: req.body.screenshot
+  };
+
+  var newProject = new db.Project(projectInfo);
+  newProject.save(function(err, project) {
+    if(err) {
+      res.status(500).send('database error');
+    } else {
+      res.json(project);
+    }
+  });
+});
+
+
+// PATCH will update a specific project
+
+app.patch('/api/projects/:id', function(req, res) {
+  db.Project.findOne({ _id: req.params.id }, function(err, foundProject) {
+    if(err) {
+      res.status(500).send("error: ", err);
+    } else {
+      console.log("found project ", foundProject);
+      foundProject.projectName = req.body.projectName;
+      foundProject.description = req.body.description || foundProject.description;
+      foundProject.githubRepoUrl = req.body.githubRepoUrl || foundProject.githubRepoUrl;
+
+      // save modified project data
+      foundProject.save(function(err, savedProject) {
+        if (err) {
+          res.status(500).send('database error');
+        } else {
+          res.json(foundProject);
+        }
+      })
+    }
   });
 });
 
@@ -97,12 +144,12 @@ app.post('/api/projects', function(req, res) {
 app.delete('/api/projects/:id', function(req, res) {
   var projectId = req.params.id;
   db.Project.findOneAndRemove({ _id: projectId }, function(err, deletedProject) {
+    if(err) {
+      res.status(500).send('database error');
+    } else {
     res.json(deletedProject);
+    }
   });
-});
-
-app.get('/api/places', function(req, res) {
-
 });
 
 /**********
