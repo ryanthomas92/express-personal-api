@@ -1,12 +1,14 @@
-var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+// require mongoose
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
+// make a schema
 var ProjectSchema = new Schema({
-  name: String,
+  projectName: String,
   description: String,
-  githubRepoUrl: String,
-  deployedUrl: String,
-  screenshot: String
+  githubRepoUrl: String //,
+  // deployedUrl: String,
+  // screenshot: String
 });
 
 var Project = mongoose.model('Project', ProjectSchema);
