@@ -43,14 +43,14 @@
               <script id="projects-template" type="text/x-handlebars-template">
                 <hr>
                 <p>
-                  <b>{{projects.name}}</b>
-                  {{projects.desc}}
+                  <b>{{project.projectName}}</b>
+                  {{project.desc}}
                   <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-id={{projects._id}}>Delete</button>
                 </p>
               </script>
             </div>
-          <h1>Under Construction</h1>
-          <h4><a href="/api">Read My API Documentation</a></h4>
+          <h1 class="api">See the Full API Here</h1>
+          <h4><a href="/api" class="button">Projects</a></h4>
         </div>
       </div>
     </div>
