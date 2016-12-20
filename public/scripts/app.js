@@ -1,7 +1,7 @@
 console.log("Sanity Check: JS is working!");
 
 var template;
-var $projectList;
+var $projectsList;
 var allProjects = [];
 
 $(document).ready(function(){
@@ -17,8 +17,9 @@ $(document).ready(function(){
     error: onError
   });
 
-  $("#newProjectForm").on("submit", function(el) {
+  $("#newProjectForm").click(function(el) {
     el.preventDefault();
+    console.log("hello!")
     $.ajax({
       method: 'POST',
       url: '/api/projects',
@@ -43,10 +44,12 @@ $(document).ready(function(){
 function render () {
   $projectsList.empty();
 
+
   var projectHtml;
 
   allProjects.forEach(function(projectData) {
     projectHtml = template({project: projectData});
+
 
     $projectsList.append(projectHtml);
   });

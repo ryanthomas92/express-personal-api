@@ -28,7 +28,7 @@ var db = require('./models');
 // Serve static files from the `/public` directory:
 // i.e. `/images`, `/scripts`, `/styles`
 app.use(express.static('public'));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 /*
  * HTML Endpoints
  */
@@ -96,7 +96,6 @@ app.get('/api/projects/:id', function (req, res) {
 
 //post one project
 app.post('/api/projects', function projectCreate(req, res) {
-  var newProject = new db.Project(req.body);
 
   var projectInfo = {
     projectName: req.body.projectName,
@@ -105,6 +104,7 @@ app.post('/api/projects', function projectCreate(req, res) {
     // deployedUrl: req.body.deployedUrl,
     // screenshot: req.body.screenshot
   };
+  var newProject = new db.Project(req.body);
   newProject.save(function(err, savedProject) {
     if(err) {
       res.status(500).send('database error');
