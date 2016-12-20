@@ -96,21 +96,20 @@ app.get('/api/projects/:id', function (req, res) {
 
 //post one project
 app.post('/api/projects', function projectCreate(req, res) {
+  var newProject = new db.Project(req.body);
 
-  var projectInfo = {
-    projectName: req.body.projectName,
-    description: req.body.description,
-    githubRepoUrl: req.body.githubRepoUrl //,
-    // deployedUrl: req.body.deployedUrl,
-    // screenshot: req.body.screenshot
-  };
-
-  var newProject = new db.Project(projectInfo);
-  newProject.save(function(err, project) {
+  // var projectInfo = {
+  //   projectName: req.body.projectName,
+  //   description: req.body.description,
+  //   githubRepoUrl: req.body.githubRepoUrl //,
+  //   // deployedUrl: req.body.deployedUrl,
+  //   // screenshot: req.body.screenshot
+  // };
+  newProject.save(function(err, savedProject) {
     if(err) {
       res.status(500).send('database error');
     } else {
-      res.json(project);
+      res.json(savedProject);
     }
   });
 });

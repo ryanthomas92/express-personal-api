@@ -50,7 +50,7 @@ function render () {
 
     $projectsList.append(projectHtml);
   });
-};
+}
 
 function onSuccess(json) {
   allProjects = json;
